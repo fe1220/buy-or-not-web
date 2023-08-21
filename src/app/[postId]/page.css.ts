@@ -46,6 +46,8 @@ export const imageWrapper = style({
   position: 'relative',
   paddingBottom: '100%',
   marginBottom: 12,
+  borderRadius: 4,
+  overflow: 'hidden',
 })
 
 export const pollItemList = style({

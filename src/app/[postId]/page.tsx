@@ -4,6 +4,12 @@ import * as style from './page.css'
 import DefaultProfileImage from '../../../public/images/default-profile.svg'
 import { vars } from '../theme.css'
 
+interface PostPageProps {
+  params: {
+    postId: number
+  }
+}
+
 interface PollItem {
   id: number
   itemId: number
@@ -39,7 +45,7 @@ interface PostData {
   resultMsg: string
 }
 
-const Post = async ({ params: { postId } }) => {
+const Post = async ({ params: { postId } }: PostPageProps) => {
   const { result: post } = await getPost(postId)
   const { userNickname, title, content, pollItemResponseList } = post
 
@@ -72,13 +78,18 @@ const Post = async ({ params: { postId } }) => {
             >
               <div className={style.imageWrapper}>
                 <Image
-                  src={pollItem.imgUrl}
+                  // TODO: 에이블리 이미지 화질 저하 현상 임시 해결
+                  src={pollItem.imgUrl.split('?')[0]}
                   layout="fill"
                   style={{
                     objectPosition: 'top',
+                    background: vars.color.slate[200],
                   }}
                   alt={`${index ? '두번째' : '첫번째'} 아이템`}
                   quality={100}
+                  sizes="50vw"
+                  loading="eager"
+                  priority
                 />
               </div>
               <p className={style.brand}>{pollItem.brand}</p>

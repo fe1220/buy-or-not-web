@@ -1,8 +1,7 @@
-import type { Metadata } from 'next'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 import localFont from 'next/font/local'
 import './globals.css'
-import { fontTheme, themeClass, themeContract } from './theme.css'
-import { assignInlineVars } from '@vanilla-extract/dynamic'
+import { fontTheme, themeClass } from './theme.css'
 
 const pretendard = localFont({
   src: [
