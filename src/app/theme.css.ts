@@ -9,6 +9,8 @@ export const [themeClass, vars] = createTheme({
       700: '#8e24cc',
     },
     gray: {
+      50: '#fafafa',
+      300: '#e5e8eB',
       950: '#09090b',
     },
     slate: {
