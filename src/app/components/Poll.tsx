@@ -5,7 +5,7 @@ import * as style from './Poll.css'
 import DislikeIcon from '../../../public/images/dislike.svg'
 import ShareIcon from '../../../public/images/share.svg'
 import { useState } from 'react'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 
 interface PollResult {
@@ -36,6 +36,14 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
     setIsPollDone(true)
   }
 
+  const onClickShareButton = () => {
+    if (!postId) return
+
+    // window.navigator.share({
+    //   url: `https://buy-or-not-web.vercel.app/${postId}`,
+    // })
+  }
+
   return (
     <div className={style.pollWrapper}>
       <div className={style.pollButtonContainer}>
@@ -60,7 +68,7 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
           <Image src={DislikeIcon} width={11} height={11} alt="unrecommended" />
           둘다 별로
         </button>
-        <button className={style.shareButton}>
+        <button className={style.shareButton} onClick={onClickShareButton}>
           <Image src={ShareIcon} width={12} height={12} alt="share" />
           공유하기
         </button>
