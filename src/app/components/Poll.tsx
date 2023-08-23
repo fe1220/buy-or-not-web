@@ -3,8 +3,10 @@
 import { PollItem, Response } from '../types'
 import * as style from './Poll.css'
 import DislikeIcon from '../../../public/images/dislike.svg'
+import ShareIcon from '../../../public/images/share.svg'
 import { useState } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
+import Image from 'next/image'
 
 interface PollResult {
   additionalProp1: number
@@ -55,10 +57,13 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
           className={style.unrecommendedButton}
           onClick={() => onClickPollButton()}
         >
-          {/* <DislikeIcon /> */}
-          둘다 별로 0
+          <Image src={DislikeIcon} width={11} height={11} alt="unrecommended" />
+          둘다 별로
         </button>
-        <button className={style.shareButton}>공유하기</button>
+        <button className={style.shareButton}>
+          <Image src={ShareIcon} width={12} height={12} alt="share" />
+          공유하기
+        </button>
       </div>
     </div>
   )
