@@ -38,10 +38,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta
+        {/* https://stackoverflow.com/questions/35178135/how-to-fix-insecure-content-was-loaded-over-https-but-requested-an-insecure-re */}
+        {/* <meta
           http-equiv="Content-Security-Policy"
           content="upgrade-insecure-requests"
-        />
+        /> */}
       </head>
       <body
         className={[pretendard.className, themeClass].join(' ')}
