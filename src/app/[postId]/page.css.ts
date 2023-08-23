@@ -3,9 +3,10 @@ import { caption, fontTheme, heading, subtitle, vars } from '../theme.css'
 
 // TODO : maxWidth 체크
 export const mainContainer = style({
-  padding: '24px 14px',
+  padding: '24px 14px 120px',
   maxWidth: 768,
   margin: '0px auto',
+  position: 'relative',
 })
 
 export const userInfoContainer = style({
@@ -102,4 +103,31 @@ export const won = style({
   fontWeight: 700,
   lineHeight: 1.5,
   color: vars.color.gray[950],
+})
+
+export const footer = style({
+  position: 'fixed',
+  left: 0,
+  bottom: 0,
+  width: '100%',
+  padding: '16px 16px 32px',
+})
+
+export const footerButton = style({
+  width: '100%',
+  height: 50,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: vars.color.primary[400],
+  border: `1px solid ${vars.color.primary[400]}`,
+  borderRadius: 9999,
+  color: '#fff',
+  fontSize: 16,
+  fontWeight: 600,
+  lineHeight: 1.5,
+  letterSpacing: '-0.3px',
+  ':active': {
+    opacity: 0.8,
+  },
 })

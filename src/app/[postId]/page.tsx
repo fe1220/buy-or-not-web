@@ -3,6 +3,9 @@ import * as style from './page.css'
 // TODO : 상대경로 적용해보기
 import DefaultProfileImage from '../../../public/images/default-profile.svg'
 import { vars } from '../theme.css'
+import Poll from '../components/Poll'
+import type { PollItem } from '../types'
+import { cookies, headers } from 'next/headers'
 
 interface PostPageProps {
   params: {
@@ -10,19 +13,7 @@ interface PostPageProps {
   }
 }
 
-interface PollItem {
-  id: number
-  itemId: number
-  itemUrl: string
-  brand: string
-  itemName: string
-  imgUrl: string
-  originalPrice: number
-  discountedRate: number
-  discountedPrice: number
-}
-
-interface PostData {
+interface PostResponse {
   result: {
     id: number
     userId: string
@@ -48,6 +39,9 @@ interface PostData {
 const Post = async ({ params: { postId } }: PostPageProps) => {
   const { result: post } = await getPost(postId)
   const { userNickname, title, content, pollItemResponseList } = post
+
+  const userAgent = headers().get('user-agent')
+  const isAndroid = userAgent ? /Android/i.test(userAgent) : false
 
   return (
     <div className={style.mainContainer}>
@@ -80,7 +74,7 @@ const Post = async ({ params: { postId } }: PostPageProps) => {
                 <Image
                   // TODO: 에이블리 이미지 화질 저하 현상 임시 해결
                   src={pollItem.imgUrl.split('?')[0]}
-                  layout="fill"
+                  fill
                   style={{
                     objectPosition: 'top',
                     background: vars.color.slate[200],
@@ -106,7 +100,18 @@ const Post = async ({ params: { postId } }: PostPageProps) => {
             </article>
           ))}
         </section>
+
+        {/* Poll */}
+        <Poll pollItems={pollItemResponseList} />
       </main>
+
+      {isAndroid && (
+        <footer className={style.footer}>
+          <button className={style.footerButton}>
+            앱으로 다른 투표 모두 보기
+          </button>
+        </footer>
+      )}
     </div>
   )
 }
@@ -116,13 +121,13 @@ const getPost = async (postId: number) => {
     `${process.env.NEXT_PUBLIC_API_URL}/api/post/${postId}`
   )
 
-  const data: PostData = await res.json()
+  const postResponse: PostResponse = await res.json()
 
-  if (data.resultCode !== 200) {
+  if (postResponse.resultCode !== 200) {
     throw new Error('포스트 정보를 가져오지 못했어요😢')
   }
 
-  return data
+  return postResponse
 }
 
 export default Post
