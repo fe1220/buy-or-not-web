@@ -31,6 +31,7 @@ interface PostResponse {
         additionalProp3: number
       }
     }
+    updatedAt: string
   }
   resultCode: number
   resultMsg: string
@@ -38,7 +39,7 @@ interface PostResponse {
 
 const Post = async ({ params: { postId } }: PostPageProps) => {
   const { result: post } = await getPost(postId)
-  const { userNickname, title, content, pollItemResponseList } = post
+  const { userNickname, title, content, pollItemResponseList, updatedAt } = post
 
   const userAgent = headers().get('user-agent')
   const isAndroid = userAgent ? /Android/i.test(userAgent) : false
@@ -55,7 +56,7 @@ const Post = async ({ params: { postId } }: PostPageProps) => {
         />
         <div>
           <p className={style.userName}>{userNickname}</p>
-          <p className={style.created}>1시간 전</p>
+          <p className={style.created}>{formatDate(updatedAt)}</p>
         </div>
       </header>
 
@@ -128,6 +129,22 @@ const getPost = async (postId: number) => {
   }
 
   return postResponse
+}
+
+const formatDate = (date: string) => {
+  const milliSeconds = new Date().getTime() - new Date(date).getTime()
+  const seconds = milliSeconds / 1000
+
+  if (seconds < 60) return `방금 전`
+
+  const minutes = seconds / 60
+  if (minutes < 60) return `${Math.floor(minutes)}분 전`
+
+  const hours = minutes / 60
+  if (hours < 24) return `${Math.floor(hours)}시간 전`
+
+  const days = hours / 24
+  return `${Math.floor(days)}일 전`
 }
 
 export default Post
