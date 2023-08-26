@@ -114,4 +114,7 @@ export const shareButton = style({
   fontWeight: 600,
   lineHeight: '20px',
   letterSpacing: '-0.3px',
+  ':active': {
+    opacity: 0.8,
+  },
 })
