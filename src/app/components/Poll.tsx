@@ -47,7 +47,6 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
 
   const onClickPollButton = async (pollItemId?: number) => {
     if (!postId) return
-    console.log('onclickPollButton', pollItemId)
 
     // TODO: PATCH api 연동
     const result = await poll(postId, pollItemId)

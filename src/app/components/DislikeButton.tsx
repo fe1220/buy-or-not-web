@@ -16,7 +16,6 @@ const DislikeButton = ({
   count,
   handleDislike,
 }: DislikeButtonProps) => {
-  console.log(selected)
   return (
     <button
       className={
