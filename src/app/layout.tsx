@@ -1,3 +1,5 @@
+'use client'
+
 import { assignInlineVars } from '@vanilla-extract/dynamic'
 import localFont from 'next/font/local'
 import './globals.css'
@@ -28,6 +30,7 @@ const matter = localFont({
   ],
   display: 'swap',
   variable: '--matter',
+  fallback: ['sans-serif'],
 })
 
 export default function RootLayout({

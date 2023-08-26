@@ -4,13 +4,11 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useMemo, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import CheckIcon from '../../../public/images/check.svg'
-import DislikeIcon from '../../../public/images/dislike.svg'
-import DislikedIcon from '../../../public/images/disliked.svg'
 import ShareIcon from '../../../public/images/share.svg'
-import { vars } from '../theme.css'
 import { PollItem, Response } from '../types'
+import DislikeButton from './DislikeButton'
 import * as style from './Poll.css'
+import PollButton from './PollButton'
 
 interface PollResult {
   additionalProp1: number
@@ -49,14 +47,17 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
 
   const onClickPollButton = async (pollItemId?: number) => {
     if (!postId) return
+    console.log('onclickPollButton', pollItemId)
 
-    // const result = await poll(postId, pollItemId)
+    // TODO: PATCH api 연동
+    const result = await poll(postId, pollItemId)
 
-    const result: PollResult = {
-      additionalProp1: 10,
-      additionalProp2: 6,
-      additionalProp3: 4,
-    }
+    // 더미데이터
+    // const result: PollResult = {
+    //   additionalProp1: 10,
+    //   additionalProp2: 6,
+    //   additionalProp3: 4,
+    // }
 
     if (pollItemId) {
       setUserPollItem(pollItemId === pollItems[0].itemId ? 'A' : 'B')
@@ -83,125 +84,31 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
   return (
     <div className={style.pollWrapper}>
       <div className={style.pollButtonContainer}>
-        <button
-          className={
-            pollResult === null
-              ? style.pollButton
-              : userPollItem === 'A'
-              ? style.pollButtonSelected
-              : style.pollButtonUnselected
-          }
-          onClick={() => onClickPollButton(pollItems[0].itemId)}
+        <PollButton
+          pollItemId={pollItems[0].itemId}
+          selected={userPollItem === 'A'}
+          ratio={aRatio ?? 0}
+          isPollDone={pollResult !== null}
+          handleClick={onClickPollButton}
         >
           A
-          {pollResult && (
-            <>
-              <div
-                className={
-                  userPollItem === 'A'
-                    ? style.buttonDividerSelected
-                    : style.buttonDivider
-                }
-              >
-                |
-              </div>
-              <div>{aRatio}%</div>
-              {userPollItem === 'A' && (
-                <Image
-                  src={CheckIcon}
-                  width={14}
-                  height={14}
-                  alt="checked circle"
-                />
-              )}
-            </>
-          )}
-          <div
-            style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              height: '100%',
-              width: `${aRatio ?? 0}%`,
-              transition: 'width 0.5s ease',
-              background:
-                userPollItem === 'A'
-                  ? vars.color.primary[100]
-                  : vars.color.slate[300],
-              zIndex: -1,
-            }}
-          />
-        </button>
-        <button
-          className={
-            pollResult === null
-              ? style.pollButton
-              : userPollItem === 'B'
-              ? style.pollButtonSelected
-              : style.pollButtonUnselected
-          }
-          onClick={() => onClickPollButton(pollItems[1].itemId)}
+        </PollButton>
+        <PollButton
+          pollItemId={pollItems[1].itemId}
+          selected={userPollItem === 'B'}
+          ratio={bRatio ?? 0}
+          isPollDone={pollResult !== null}
+          handleClick={onClickPollButton}
         >
           B
-          {pollResult && (
-            <>
-              <div
-                className={
-                  userPollItem === 'B'
-                    ? style.buttonDividerSelected
-                    : style.buttonDivider
-                }
-              >
-                |
-              </div>
-              <div>{bRatio}%</div>
-              {userPollItem === 'B' && (
-                <Image
-                  src={CheckIcon}
-                  width={14}
-                  height={14}
-                  alt="checked circle"
-                />
-              )}
-            </>
-          )}
-          <div
-            style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              height: '100%',
-              width: `${bRatio ?? 0}%`,
-              transition: 'width 0.5s ease',
-              background:
-                userPollItem === 'B'
-                  ? vars.color.primary[100]
-                  : vars.color.slate[300],
-              zIndex: -1,
-            }}
-          />
-        </button>
+        </PollButton>
       </div>
       <div className={style.buttonContainer}>
-        <button
-          className={
-            userPollItem === 'disliked'
-              ? style.unrecommendedButtonSelected
-              : style.unrecommendedButton
-          }
-          onClick={() => onClickPollButton()}
-        >
-          <Image
-            src={userPollItem === 'disliked' ? DislikedIcon : DislikeIcon}
-            width={11}
-            height={11}
-            alt="unrecommended"
-          />
-          둘다 별로
-          {userPollItem === 'disliked' &&
-            pollResult?.additionalProp3 &&
-            ` ${pollResult.additionalProp3}`}
-        </button>
+        <DislikeButton
+          selected={userPollItem === 'disliked'}
+          count={pollResult?.additionalProp3 ?? null}
+          handleDislike={onClickPollButton}
+        />
         <CopyToClipboard
           text={url}
           onCopy={(_text, result) =>

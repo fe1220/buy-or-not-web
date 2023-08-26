@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css'
-import { vars } from '../theme.css'
+import { fontTheme, vars } from '../theme.css'
 
 export const pollWrapper = style({
   width: '100%',
@@ -39,6 +39,7 @@ export const pollButton = style({
     opacity: 0.8,
   },
   overflow: 'hidden',
+  fontFamily: fontTheme.pretendard,
 })
 
 export const pollButtonUnselected = style([
@@ -89,6 +90,7 @@ export const unrecommendedButton = style({
   ':active': {
     opacity: 0.8,
   },
+  fontFamily: fontTheme.pretendard,
 })
 
 export const unrecommendedButtonSelected = style([
@@ -117,4 +119,5 @@ export const shareButton = style({
   ':active': {
     opacity: 0.8,
   },
+  fontFamily: fontTheme.pretendard,
 })
