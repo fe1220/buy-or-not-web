@@ -17,6 +17,8 @@ export const [themeClass, vars] = createTheme({
       200: '#f2f4f6',
       300: '#e5e8eb',
       500: '#b0b7c1',
+      600: '#6b7484',
+      700: '#4e5768',
       900: '#191e28',
     },
   },

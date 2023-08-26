@@ -19,10 +19,15 @@ export const buttonContainer = style({
 })
 
 export const pollButton = style({
+  position: 'relative',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: 6,
   flex: 1,
   height: 46,
-  backgroundColor: '#fff',
   border: `1px solid ${vars.color.gray[300]}`,
+  background: 'transparent',
   borderRadius: 9999,
   color: vars.color.primary[500],
   fontSize: 14,
@@ -33,10 +38,41 @@ export const pollButton = style({
     backgroundColor: vars.color.gray[50],
     opacity: 0.8,
   },
+  overflow: 'hidden',
 })
 
+export const pollButtonUnselected = style([
+  pollButton,
+  {
+    color: vars.color.slate[700],
+    borderColor: vars.color.slate[500],
+  },
+])
+
+export const pollButtonSelected = style([
+  pollButton,
+  {
+    borderColor: vars.color.primary[400],
+  },
+])
+
+export const buttonDivider = style({
+  fontWeight: 600,
+  lineHeight: '20px',
+  letterSpacing: '-0.3px',
+  color: vars.color.slate[600],
+  opacity: 0.4,
+})
+
+export const buttonDividerSelected = style([
+  buttonDivider,
+  {
+    color: vars.color.primary[500],
+  },
+])
+
 export const unrecommendedButton = style({
-  width: 86,
+  padding: '6px 12px',
   height: 32,
   display: 'flex',
   justifyContent: 'center',
@@ -54,6 +90,14 @@ export const unrecommendedButton = style({
     opacity: 0.8,
   },
 })
+
+export const unrecommendedButtonSelected = style([
+  unrecommendedButton,
+  {
+    color: vars.color.primary[100],
+    backgroundColor: vars.color.slate[900],
+  },
+])
 
 export const shareButton = style({
   width: 83,
