@@ -41,6 +41,8 @@ const Post = async ({ params: { postId } }: PostPageProps) => {
   const { result: post } = await getPost(postId)
   const { userNickname, title, content, pollItemResponseList, updatedAt } = post
 
+  console.log(post)
+
   const userAgent = headers().get('user-agent')
   const isAndroid = userAgent ? /Android/i.test(userAgent) : false
 
