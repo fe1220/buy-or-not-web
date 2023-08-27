@@ -136,7 +136,7 @@ const poll = async (
   const res = await axios.patch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/post/${postId}/poll`,
     {
-      params: {
+      query: {
         choice: choice,
       },
     }
