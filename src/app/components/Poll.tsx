@@ -133,7 +133,7 @@ const poll = async (
   const choice = pollItemId ?? 0
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/post/${postId}/poll?choice=${choice}`,
+    `https://buyornot.shop/api/post/${postId}/poll?choice=${choice}`,
     {
       method: 'PATCH',
     }
