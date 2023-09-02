@@ -38,13 +38,23 @@ interface PostResponse {
 }
 
 const Post = async ({ params: { postId } }: PostPageProps) => {
-  const { result: post } = await getPost(postId)
-  const { userNickname, title, content, pollItemResponseList, updatedAt } = post
-
-  console.log(post)
+  const postResponse = await getPost(postId)
 
   const userAgent = headers().get('user-agent')
   const isAndroid = userAgent ? /Android/i.test(userAgent) : false
+
+  if (!postResponse) {
+    return (
+      <div className={style.mainContainer}>
+        투표 정보를 불러오지 못했어요 😢
+      </div>
+    )
+  }
+
+  const { userNickname, title, content, pollItemResponseList, updatedAt } =
+    postResponse.result
+
+  console.log(postResponse)
 
   return (
     <div className={style.mainContainer}>
@@ -120,17 +130,21 @@ const Post = async ({ params: { postId } }: PostPageProps) => {
 }
 
 const getPost = async (postId: number) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/post/${postId}`
-  )
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/post/${postId}`
+    )
 
-  const postResponse: PostResponse = await res.json()
+    const postResponse: PostResponse = await res.json()
 
-  if (postResponse.resultCode !== 200) {
-    throw new Error('포스트 정보를 가져오지 못했어요😢')
+    if (postResponse.resultCode !== 200) {
+      throw new Error('포스트 정보를 가져오지 못했어요😢')
+    }
+
+    return postResponse
+  } catch (err) {
+    console.log(err)
   }
-
-  return postResponse
 }
 
 const formatDate = (date: string) => {
