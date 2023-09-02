@@ -18,7 +18,7 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'cf.product-image.s.zigzag.kr',
         port: '',
-        pathname: '/original/c/**',
+        pathname: '/original/**',
       },
     ],
   },
