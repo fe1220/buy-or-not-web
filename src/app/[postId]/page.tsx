@@ -1,13 +1,10 @@
-'use client'
-
 import Image from 'next/image'
 import * as style from './page.css'
-// TODO : 상대경로 적용해보기
 import DefaultProfileImage from '../../../public/images/default-profile.svg'
 import { vars } from '../theme.css'
 import Poll from '../components/Poll'
 import type { PollItem } from '../types'
-import { cookies, headers } from 'next/headers'
+import { headers } from 'next/headers'
 
 interface PostPageProps {
   params: {
@@ -138,7 +135,11 @@ const getPost = async (postId: number) => {
       `${process.env.NEXT_PUBLIC_API_URL}/api/post/${postId}`
     )
 
+    console.log('res', res)
+
     const postResponse: PostResponse = await res.json()
+
+    console.log(postResponse)
 
     if (postResponse.resultCode !== 200) {
       throw new Error('포스트 정보를 가져오지 못했어요😢')
