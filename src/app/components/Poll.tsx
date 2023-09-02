@@ -59,7 +59,7 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
     // }
 
     if (pollItemId) {
-      setUserPollItem(pollItemId === pollItems[0].itemId ? 'A' : 'B')
+      setUserPollItem(pollItemId === pollItems[0].id ? 'A' : 'B')
     } else {
       setUserPollItem('disliked')
     }
@@ -84,7 +84,7 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
     <div className={style.pollWrapper}>
       <div className={style.pollButtonContainer}>
         <PollButton
-          pollItemId={pollItems[0].itemId}
+          pollItemId={pollItems[0].id}
           selected={userPollItem === 'A'}
           ratio={aRatio ?? 0}
           isPollDone={pollResult !== null}
@@ -93,7 +93,7 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
           A
         </PollButton>
         <PollButton
-          pollItemId={pollItems[1].itemId}
+          pollItemId={pollItems[1].id}
           selected={userPollItem === 'B'}
           ratio={bRatio ?? 0}
           isPollDone={pollResult !== null}
@@ -133,15 +133,23 @@ const poll = async (
   const choice = pollItemId ?? 0
 
   const res = await fetch(
-    `https://buyornot.shop/api/post/${postId}/poll?choice=${choice}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/post/${postId}/poll?choice=${choice}`,
     {
       method: 'PATCH',
     }
   )
 
+  console.log(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/post/${postId}/poll?choice=${choice}`,
+    res.url,
+    res.body
+  )
+
   const {
     result: { result },
   }: PollResultResponse = await res.json()
+
+  console.log(await res.json(), result)
 
   return result
 }
