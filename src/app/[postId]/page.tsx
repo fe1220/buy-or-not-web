@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 import * as style from './page.css'
 // TODO : 상대경로 적용해보기
