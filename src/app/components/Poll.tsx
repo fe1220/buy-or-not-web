@@ -1,6 +1,5 @@
 'use client'
 
-import axios from 'axios'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useMemo, useState } from 'react'
@@ -133,18 +132,16 @@ const poll = async (
 ): Promise<PollResult> => {
   const choice = pollItemId ?? 0
 
-  const res = await axios.patch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/post/${postId}/poll`,
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/post/${postId}/poll?choice=${choice}`,
     {
-      params: {
-        choice,
-      },
+      method: 'PATCH',
     }
   )
 
   const {
     result: { result },
-  }: PollResultResponse = await res.data
+  }: PollResultResponse = await res.json()
 
   return result
 }
