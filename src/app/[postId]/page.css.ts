@@ -105,6 +105,7 @@ export const originalPrice = style({
 })
 
 export const won = style({
+  fontFamily: fontTheme.pretendard,
   fontSize: 16,
   fontWeight: 700,
   lineHeight: 1.5,

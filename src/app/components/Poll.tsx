@@ -48,6 +48,9 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
   const onClickPollButton = async (pollItemId?: number) => {
     if (!postId) return
 
+    // 한번만 투표할 수 있음
+    if (pollResult) return
+
     const result = await poll(postId, pollItemId)
 
     if (pollItemId) {
