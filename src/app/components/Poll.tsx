@@ -139,17 +139,9 @@ const poll = async (
     }
   )
 
-  console.log(
-    `${process.env.NEXT_PUBLIC_API_URL}/post/${postId}/poll?choice=${choice}`,
-    res.url,
-    res.body
-  )
-
   const {
     result: { result },
   }: PollResultResponse = await res.json()
-
-  console.log(await res.json(), result)
 
   return result
 }

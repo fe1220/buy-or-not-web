@@ -53,8 +53,6 @@ const Post = async ({ params: { postId } }: PostPageProps) => {
   const { userNickname, title, content, pollItemResponseList, updatedAt } =
     postResponse.result
 
-  console.log(postResponse)
-
   return (
     <div className={style.mainContainer}>
       {/* UserInfo */}
@@ -130,12 +128,11 @@ const Post = async ({ params: { postId } }: PostPageProps) => {
 
 const getPost = async (postId: number) => {
   try {
-    console.log(process.env.NEXT_PUBLIC_API_URL)
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/post/${postId}`)
 
     const postResponse: PostResponse = await res.json()
 
-    console.log(postResponse)
+    console.log('response', postResponse)
 
     if (postResponse.resultCode !== 200) {
       throw new Error('포스트 정보를 가져오지 못했어요😢')
@@ -143,7 +140,7 @@ const getPost = async (postId: number) => {
 
     return postResponse
   } catch (err) {
-    console.log(err)
+    console.log('error', err)
   }
 }
 
