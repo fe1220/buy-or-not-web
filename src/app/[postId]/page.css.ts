@@ -107,10 +107,12 @@ export const won = style({
 
 export const footer = style({
   position: 'fixed',
-  left: 0,
+  left: '50%',
   bottom: 0,
+  transform: 'translateX(-50%)',
   width: '100%',
   padding: '16px 16px 32px',
+  maxWidth: 768,
 })
 
 export const footerButton = style({

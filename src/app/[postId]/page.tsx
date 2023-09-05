@@ -1,5 +1,3 @@
-'use client'
-
 import Image from 'next/image'
 import * as style from './page.css'
 import DefaultProfileImage from '../../../public/images/default-profile.svg'
@@ -133,11 +131,7 @@ const Post = async ({ params: { postId } }: PostPageProps) => {
 const getPost = async (postId: number) => {
   try {
     console.log(process.env.NEXT_PUBLIC_API_URL)
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/post/${postId}`
-    )
-
-    console.log('res', res)
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/post/${postId}`)
 
     const postResponse: PostResponse = await res.json()
 

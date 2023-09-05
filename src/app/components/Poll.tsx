@@ -31,7 +31,7 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
   >(null)
   const [pollResult, setPollResult] = useState<PollResult | null>(null)
 
-  const url = `https://buy-or-not-web.vercel.app/${postId}`
+  const url = `${process.env.NEXT_PUBLIC_APP_URL}/${postId}`
   const [aRatio, bRatio] = useMemo(() => {
     if (!pollResult) return [null, null]
 
@@ -133,14 +133,14 @@ const poll = async (
   const choice = pollItemId ?? 0
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/post/${postId}/poll?choice=${choice}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/post/${postId}/poll?choice=${choice}`,
     {
       method: 'PATCH',
     }
   )
 
   console.log(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/post/${postId}/poll?choice=${choice}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/post/${postId}/poll?choice=${choice}`,
     res.url,
     res.body
   )
