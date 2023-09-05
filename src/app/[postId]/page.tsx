@@ -1,10 +1,10 @@
+import { headers } from 'next/headers'
 import Image from 'next/image'
-import * as style from './page.css'
 import DefaultProfileImage from '../../../public/images/default-profile.svg'
-import { vars } from '../theme.css'
 import Poll from '../components/Poll'
+import { vars } from '../theme.css'
 import type { PollItem } from '../types'
-// import { headers } from 'next/headers'
+import * as style from './page.css'
 
 interface PostPageProps {
   params: {
@@ -39,8 +39,8 @@ interface PostResponse {
 const Post = async ({ params: { postId } }: PostPageProps) => {
   const postResponse = await getPost(postId)
 
-  // const userAgent = headers().get('user-agent')
-  // const isAndroid = userAgent ? /Android/i.test(userAgent) : false
+  const userAgent = headers().get('user-agent')
+  const isAndroid = userAgent ? /Android/i.test(userAgent) : false
 
   if (!postResponse) {
     return (
@@ -100,7 +100,7 @@ const Post = async ({ params: { postId } }: PostPageProps) => {
               </div>
               <p className={style.brand}>{pollItem.brand}</p>
               <p className={style.name}>{pollItem.itemName}</p>
-              <div>
+              <div className={style.priceContainer}>
                 <span className={style.discountedRate}>
                   {pollItem.discountedRate}%
                 </span>
@@ -117,13 +117,13 @@ const Post = async ({ params: { postId } }: PostPageProps) => {
         <Poll pollItems={pollItemResponseList} />
       </main>
 
-      {/* {isAndroid && ( */}
-      <footer className={style.footer}>
-        <button className={style.footerButton}>
-          앱으로 다른 투표 모두 보기
-        </button>
-      </footer>
-      {/* )} */}
+      {isAndroid && (
+        <footer className={style.footer}>
+          <button className={style.footerButton}>
+            앱으로 다른 투표 모두 보기
+          </button>
+        </footer>
+      )}
     </div>
   )
 }

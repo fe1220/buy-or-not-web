@@ -80,14 +80,20 @@ export const name = style({
   letterSpacing: '-0.3px',
 })
 
-// TODO : font 확인
+export const priceContainer = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: 5,
+})
+
 export const discountedRate = style({
   color: vars.color.primary[400],
-  // fontFamily: fontTheme.matter,
+  fontFamily: fontTheme.matter,
   fontSize: 14,
   fontWeight: 700,
   lineHeight: '20px',
   letterSpacing: '-0.3px',
+  height: '20px',
 })
 
 export const originalPrice = style({
