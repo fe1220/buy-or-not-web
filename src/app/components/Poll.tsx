@@ -11,9 +11,9 @@ import * as style from './Poll.css'
 import PollButton from './PollButton'
 
 interface PollResult {
-  additionalProp1: number
-  additionalProp2: number
-  additionalProp3: number
+  firstItem: number
+  secondItem: number
+  unrecommended: number
 }
 
 interface PollResultResponse extends Response {
@@ -27,7 +27,7 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
   const postId = pathname.split('/').pop()
 
   const [userPollItem, setUserPollItem] = useState<
-    'A' | 'B' | 'disliked' | null
+    'firstItem' | 'secondItem' | 'unrecommended' | null
   >(null)
   const [pollResult, setPollResult] = useState<PollResult | null>(null)
 
@@ -35,8 +35,8 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
   const [aRatio, bRatio] = useMemo(() => {
     if (!pollResult) return [null, null]
 
-    const aCount = pollResult.additionalProp1
-    const bCount = pollResult.additionalProp2
+    const aCount = pollResult.firstItem
+    const bCount = pollResult.secondItem
     const pollCount = aCount + bCount
 
     const a = Math.round((aCount / pollCount) * 100)
@@ -48,20 +48,14 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
   const onClickPollButton = async (pollItemId?: number) => {
     if (!postId) return
 
-    // TODO: PATCH api 연동
     const result = await poll(postId, pollItemId)
 
-    // 더미데이터
-    // const result: PollResult = {
-    //   additionalProp1: 10,
-    //   additionalProp2: 6,
-    //   additionalProp3: 4,
-    // }
-
     if (pollItemId) {
-      setUserPollItem(pollItemId === pollItems[0].id ? 'A' : 'B')
+      setUserPollItem(
+        pollItemId === pollItems[0].id ? 'firstItem' : 'secondItem'
+      )
     } else {
-      setUserPollItem('disliked')
+      setUserPollItem('unrecommended')
     }
     setPollResult(result)
   }
@@ -85,7 +79,7 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
       <div className={style.pollButtonContainer}>
         <PollButton
           pollItemId={pollItems[0].id}
-          selected={userPollItem === 'A'}
+          selected={userPollItem === 'firstItem'}
           ratio={aRatio ?? 0}
           isPollDone={pollResult !== null}
           handleClick={onClickPollButton}
@@ -94,7 +88,7 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
         </PollButton>
         <PollButton
           pollItemId={pollItems[1].id}
-          selected={userPollItem === 'B'}
+          selected={userPollItem === 'secondItem'}
           ratio={bRatio ?? 0}
           isPollDone={pollResult !== null}
           handleClick={onClickPollButton}
@@ -104,8 +98,8 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
       </div>
       <div className={style.buttonContainer}>
         <DislikeButton
-          selected={userPollItem === 'disliked'}
-          count={pollResult?.additionalProp3 ?? null}
+          selected={userPollItem === 'unrecommended'}
+          count={pollResult?.unrecommended ?? null}
           handleDislike={onClickPollButton}
         />
         <CopyToClipboard
@@ -139,9 +133,7 @@ const poll = async (
     }
   )
 
-  const {
-    result: { result },
-  }: PollResultResponse = await res.json()
+  const { result } = await res.json()
 
   return result
 }
