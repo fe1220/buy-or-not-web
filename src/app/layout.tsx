@@ -49,6 +49,7 @@ export default function RootLayout({
           http-equiv="Content-Security-Policy"
           content="upgrade-insecure-requests"
         /> */}
+          <link rel="icon" href="/favicon.ico" sizes="any" />
         </head>
         <body
           className={[pretendard.className, themeClass].join(' ')}
