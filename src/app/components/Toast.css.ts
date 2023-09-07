@@ -20,12 +20,12 @@ export const toastContainer = style({
   lineHeight: '20px',
   letterSpacing: '-0.3px',
   color: '#fff',
-  transition: 'bottom 0.3s ease',
+  transition: 'bottom 0.4s ease',
 })
 
 export const toastContainerHidden = style([
   toastContainer,
   {
-    bottom: -100,
+    bottom: -75,
   },
 ])
