@@ -136,6 +136,7 @@ export const footerButton = style({
   fontWeight: 600,
   lineHeight: 1.5,
   letterSpacing: '-0.3px',
+  fontFamily: fontTheme.pretendard,
   ':active': {
     opacity: 0.8,
   },

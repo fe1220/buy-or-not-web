@@ -9,6 +9,7 @@ import { PollItem, Response } from '../types'
 import DislikeButton from './DislikeButton'
 import * as style from './Poll.css'
 import PollButton from './PollButton'
+import useToast from '../hooks/useToast'
 
 interface PollResult {
   firstItem: number
@@ -25,6 +26,8 @@ interface PollResultResponse extends Response {
 const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
   const pathname = usePathname()
   const postId = pathname.split('/').pop()
+
+  const { show: showToast } = useToast()
 
   const [userPollItem, setUserPollItem] = useState<
     'firstItem' | 'secondItem' | 'unrecommended' | null
@@ -67,6 +70,7 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
     if (!postId) return
 
     if (typeof navigator.share !== 'undefined') {
+      // share
       navigator.share({
         url,
         title: 'buy or not',
@@ -74,6 +78,8 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
       })
     } else {
       // copy to clipboard
+      navigator.clipboard.writeText(url)
+      showToast()
     }
   }
 
@@ -105,19 +111,10 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
           count={pollResult?.unrecommended ?? null}
           handleDislike={onClickPollButton}
         />
-        <CopyToClipboard
-          text={url}
-          onCopy={(_text, result) =>
-            result
-              ? alert(`투표 링크가 클립보드에 복사되었습니다`)
-              : alert(`공유하기가 지원되지 않는 환경입니다`)
-          }
-        >
-          <button className={style.shareButton} onClick={onClickShareButton}>
-            <Image src={ShareIcon} width={12} height={12} alt="share" />
-            공유하기
-          </button>
-        </CopyToClipboard>
+        <button className={style.shareButton} onClick={onClickShareButton}>
+          <Image src={ShareIcon} width={12} height={12} alt="share" />
+          공유하기
+        </button>
       </div>
     </div>
   )

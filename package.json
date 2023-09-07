@@ -12,6 +12,7 @@
     "@types/node": "20.5.1",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
+    "@types/recoil": "^0.0.9",
     "@vanilla-extract/dynamic": "^2.0.3",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.19",
@@ -19,6 +20,7 @@
     "react": "18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "18.2.0",
+    "recoil": "^0.7.7",
     "typescript": "5.1.6"
   },
   "devDependencies": {

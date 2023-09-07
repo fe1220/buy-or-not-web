@@ -4,6 +4,8 @@ import { assignInlineVars } from '@vanilla-extract/dynamic'
 import localFont from 'next/font/local'
 import './globals.css'
 import { fontTheme, themeClass } from './theme.css'
+import Toast from './components/Toast'
+import { RecoilRoot } from 'recoil'
 
 const pretendard = localFont({
   src: [
@@ -39,23 +41,26 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <head>
-        {/* https://stackoverflow.com/questions/35178135/how-to-fix-insecure-content-was-loaded-over-https-but-requested-an-insecure-re */}
-        {/* <meta
+    <RecoilRoot>
+      <html lang="en">
+        <head>
+          {/* https://stackoverflow.com/questions/35178135/how-to-fix-insecure-content-was-loaded-over-https-but-requested-an-insecure-re */}
+          {/* <meta
           http-equiv="Content-Security-Policy"
           content="upgrade-insecure-requests"
         /> */}
-      </head>
-      <body
-        className={[pretendard.className, themeClass].join(' ')}
-        style={assignInlineVars({
-          [fontTheme.matter]: matter.style.fontFamily,
-          [fontTheme.pretendard]: pretendard.style.fontFamily,
-        })}
-      >
-        {children}
-      </body>
-    </html>
+        </head>
+        <body
+          className={[pretendard.className, themeClass].join(' ')}
+          style={assignInlineVars({
+            [fontTheme.matter]: matter.style.fontFamily,
+            [fontTheme.pretendard]: pretendard.style.fontFamily,
+          })}
+        >
+          {children}
+          <Toast />
+        </body>
+      </html>
+    </RecoilRoot>
   )
 }

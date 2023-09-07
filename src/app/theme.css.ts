@@ -11,6 +11,7 @@ export const [themeClass, vars] = createTheme({
     gray: {
       50: '#fafafa',
       300: '#e5e8eB',
+      800: '#27272a',
       950: '#09090b',
     },
     slate: {
