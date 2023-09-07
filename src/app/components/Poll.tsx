@@ -66,19 +66,19 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
     setPollResult(result)
   }
 
-  const onClickShareButton = () => {
+  const onClickShareButton = async () => {
     if (!postId) return
 
     if (typeof navigator.share !== 'undefined') {
       // share
-      navigator.share({
+      await navigator.share({
         url,
         title: 'buy or not',
         text: 'buy or not',
       })
     } else {
       // copy to clipboard
-      navigator.clipboard.writeText(url)
+      await navigator.clipboard?.writeText(url)
       showToast()
     }
   }
