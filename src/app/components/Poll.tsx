@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import ShareIcon from '../../../public/images/share.svg'
 import { PollItem, Response } from '../types'
@@ -10,6 +10,8 @@ import DislikeButton from './DislikeButton'
 import * as style from './Poll.css'
 import PollButton from './PollButton'
 import useToast from '../hooks/useToast'
+
+type PollChoice = 'firstItem' | 'secondItem' | 'unrecommended'
 
 interface PollResult {
   firstItem: number
@@ -29,12 +31,11 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
 
   const { show: showToast } = useToast()
 
-  const [userPollItem, setUserPollItem] = useState<
-    'firstItem' | 'secondItem' | 'unrecommended' | null
-  >(null)
+  const [userPollItem, setUserPollItem] = useState<PollChoice | null>(null)
   const [pollResult, setPollResult] = useState<PollResult | null>(null)
 
-  const url = `${process.env.NEXT_PUBLIC_APP_URL}/${postId}`
+  const encodedPostId = postId ? encodeURIComponent(postId) : ''
+  const url = `${process.env.NEXT_PUBLIC_APP_URL}/${encodedPostId}`
   const [aRatio, bRatio] = useMemo(() => {
     if (!pollResult) return [null, null]
 
@@ -48,11 +49,33 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
     return [a, b]
   }, [pollResult])
 
+  useEffect(() => {
+    const storedPollItem = localStorage.getItem('userPollItem')
+    const storedPollResult = localStorage.getItem('pollResult')
+
+    if (storedPollItem) {
+      setUserPollItem(storedPollItem as PollChoice)
+    }
+    if (storedPollResult) {
+      setPollResult(JSON.parse(storedPollResult))
+    }
+  }, [])
+
+  useEffect(() => {
+    if (pollResult && userPollItem) {
+      localStorage.setItem('userPollItem', userPollItem)
+      localStorage.setItem('pollResult', JSON.stringify(pollResult))
+    }
+  }, [userPollItem, pollResult])
+
   const onClickPollButton = async (pollItemId?: number) => {
     if (!postId) return
 
     // 한번만 투표할 수 있음
-    if (pollResult) return
+    if (pollResult) {
+      showToast({ message: '❕ 이미 투표한 글이에요' })
+      return
+    }
 
     const result = await poll(postId, pollItemId)
 
@@ -74,7 +97,6 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
       await navigator.share({
         url,
         title: 'buy or not',
-        text: 'buy or not',
       })
     } else {
       // copy to clipboard
