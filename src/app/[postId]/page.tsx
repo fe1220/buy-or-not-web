@@ -117,9 +117,15 @@ const Post = async ({ params: { postId } }: PostPageProps) => {
 
       {isAndroid && (
         <footer className={style.footer}>
-          <button className={style.footerButton}>
-            앱으로 다른 투표 모두 보기
-          </button>
+          <a
+            href="app://buy.or.not"
+            // type="application/vnd.android.package-archive"
+            target="_blank"
+          >
+            <button className={style.footerButton}>
+              앱으로 다른 투표 모두 보기
+            </button>
+          </a>
         </footer>
       )}
     </div>
