@@ -186,6 +186,11 @@ export async function generateMetadata(
       type: 'website',
       locale: 'ko_KR',
     },
+    twitter: {
+      title,
+      description: '그래서 뭐 사지? 바이올낫에서 물어봐!',
+      card: 'summary',
+    },
   }
 }
 
