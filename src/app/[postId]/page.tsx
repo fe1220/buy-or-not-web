@@ -5,6 +5,7 @@ import Poll from '../components/Poll'
 import { vars } from '../theme.css'
 import type { PollItem } from '../types'
 import * as style from './page.css'
+import { Metadata, ResolvingMetadata } from 'next'
 
 interface PostPageProps {
   params: {
@@ -164,6 +165,28 @@ const formatDate = (date: string) => {
 
   const days = hours / 24
   return `${Math.floor(days)}일 전`
+}
+
+export async function generateMetadata(
+  { params }: PostPageProps,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const postResponse = await getPost(params.postId)
+
+  const title = postResponse?.result.title
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || []
+
+  return {
+    openGraph: {
+      title,
+      description: '그래서 뭐 사지? 바이올낫에서 물어봐!',
+      url: 'https://web.buyornot.shop',
+      images: [...previousImages],
+      type: 'website',
+      locale: 'ko_KR',
+    },
+  }
 }
 
 export default Post
