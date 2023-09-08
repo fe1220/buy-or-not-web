@@ -95,12 +95,15 @@ const Poll = ({ pollItems }: { pollItems: PollItem[] }) => {
     if (typeof navigator.share !== 'undefined') {
       // share
       await navigator.share({
+        title: '바이올낫',
+        text: '어떤 걸 사지? 고민될 때, 바이올낫에서 투표를 올리고 사람들의 의견을 들어보세요!',
         url,
-        title: 'buy or not',
       })
     } else {
       // copy to clipboard
-      await navigator.clipboard?.writeText(url)
+      await navigator.clipboard?.writeText(
+        `바이올낫 - 어떤 걸 사지? 고민될 때, 바이올낫에서 투표를 올리고 사람들의 의견을 들어보세요! ${url}`
+      )
       showToast()
     }
   }
